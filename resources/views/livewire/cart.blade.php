@@ -50,7 +50,7 @@
                                     <div class="mt-4 flex items-center justify-between">
                                         <div class="flex items-center space-x-4">
                                             <!-- Quantity Input -->
-                                            <input type="number" wire:model="quantities.{{ $item->product_id }}" wire:change="updateQuantity({{ $item->product_id }}, $event.target.value)" min="1" max="{{ $item->product->stock }}" class="w-16 p-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-200">
+                                            <input type="number" wire:model="quantities.{{ $item->product_id }}" wire:change="updateQuantity({{ $item->product_id }}, $event.target.value)" min="1" max="{{ $item->product->stock }}" class="w-16 p-2 text-white border-gray-300 rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-200">
                                             <!-- Stock Info -->
                                             <span class="text-sm text-gray-500">Stok: {{ $item->product->stock }}</span>
                                         </div>
@@ -82,11 +82,11 @@
                     <!-- Subtotal -->
                     <div class="flex justify-between">
                         <span class="text-gray-600">Total Harga ({{ $cartItems->count() }} Produk)</span>
-                        <span class="font-medium">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                        <span class="font-medium text-gray-800">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
                     </div>
                     <!-- Total -->
                     <div class="flex justify-between text-lg font-medium border-t pt-4">
-                        <span>Total Tagihan</span>
+                        <span class="text-gray-800">Total Tagihan</span>
                         <span class="text-blue-600">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
                     </div>
                     <!-- Checkout Button -->
