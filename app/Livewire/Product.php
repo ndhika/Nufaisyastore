@@ -40,10 +40,8 @@ class Product extends Component
         // Cek apakah query kosong
         $products = $productsQuery->get();
         if ($products->isEmpty()) {
-            // Jika kosong, ambil semua produk
             $products = ProductModel::with('sizes')->paginate(10);
         } else {
-            // Jika ada hasil, tetap gunakan pagination
             $products = $productsQuery->paginate(10);
         }
 
