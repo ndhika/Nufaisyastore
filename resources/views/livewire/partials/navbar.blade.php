@@ -23,7 +23,7 @@
         <li><a href="{{ route('about') }}" class="text-white hover:rounded-full {{ request()->routeIs('about') ? 'bg-black rounded-full text-yellow-500 font-bold' : '' }}">About</a></li>
       </ul>
     </div>
-    <a class="btn btn-ghost text-xl text-white">Nufaisyastore</a> 
+    <a href="/" class="btn btn-ghost text-xl text-white">Nufaisyastore</a> 
   </div>
   
   <div class="navbar-center hidden lg:flex">
