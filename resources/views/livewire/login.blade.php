@@ -43,9 +43,3 @@
         </div>
     </div>
 </div>
-
-<!-- Tambahkan Alpine.js untuk toggle -->
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
-<!-- Tambahkan Font Awesome jika belum -->
-<script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
