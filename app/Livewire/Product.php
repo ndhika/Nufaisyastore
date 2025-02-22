@@ -16,6 +16,7 @@ class Product extends Component
     {
         if ($property === 'search' || $property === 'category') {
             $this->resetPage();
+            session()->flash('message', 'Produk telah difilter!');
         }
     }
 

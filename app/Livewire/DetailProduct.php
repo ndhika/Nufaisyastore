@@ -26,7 +26,7 @@ class DetailProduct extends Component
 
         $this->selectedImage = $this->product->thumbnail;
     }
-    
+
     public function changeImage($image)
     {
         $this->selectedImage = ($this->selectedImage === $image) ? $this->product->thumbnail : $image;
@@ -36,6 +36,7 @@ class DetailProduct extends Component
     {
         if ($this->quantity < $this->product->stock) {
             $this->quantity++;
+            session()->flash('info', 'Jumlah produk diperbarui.');
         }
     }
 
@@ -43,76 +44,61 @@ class DetailProduct extends Component
     {
         if ($this->quantity > 1) {
             $this->quantity--;
+            session()->flash('info', 'Jumlah produk diperbarui.');
         }
     }
 
     public function selectSize($size)
     {
         $this->selectedSize = $size;
+        session()->flash('info', 'Ukuran berhasil dipilih.');
     }
 
     public function addToCart($productId, $size = null, $quantity = 1)
     {
         if (!Auth::check()) {
-            $this->dispatch('notify', [
-                'message' => 'Silakan login terlebih dahulu',
-                'type' => 'error'
-            ]);
+            session()->flash('error', 'Silakan login terlebih dahulu.');
             return redirect()->route('login');
         }
-
-        DB::transaction(function () use ($productId, $size, $quantity) {
+    
+        $product = Product::with('sizes')->find($productId);
+    
+        if (!$product) {
+            session()->flash('error', 'Produk tidak ditemukan.');
+            return;
+        }
+    
+        // **Pastikan produk memiliki ukuran & pengguna belum memilih ukuran**
+        if ($product->sizes->count() > 0 && !$size) {
+            session()->flash('error', 'Silakan pilih ukuran terlebih dahulu.');
+            return; // **Hentikan eksekusi di sini agar tidak lanjut ke flash sukses**
+        }
+    
+        DB::transaction(function () use ($productId, $size, $quantity, $product) {
             $userId = Auth::id();
-            $product = Product::with('sizes')->find($productId);
-
-            if (!$product) {
-                $this->dispatch('notify', [
-                    'message' => 'Produk tidak ditemukan',
-                    'type' => 'error'
-                ]);
-                return;
-            }
-
-            if ($product->sizes->count() > 0 && !$size) {
-                $this->dispatch('notify', [
-                    'message' => 'Silakan pilih ukuran terlebih dahulu',
-                    'type' => 'error'
-                ]);
-                return;
-            }
-
             $quantity = max(1, (int) $quantity);
             $size = $size ?? null;
-
+    
+            $availableStock = $product->sizes->where('id', $size)->first()->stock ?? $product->stock;
+    
             $existingCartItem = Cart::where('user_id', $userId)
                 ->where('product_id', $productId)
                 ->where('size_id', $size)
                 ->lockForUpdate()
                 ->first();
-
-            $availableStock = $product->sizes->where('id', $size)->first()->stock ?? $product->stock;
-
+    
             if ($existingCartItem) {
                 $newQuantity = $existingCartItem->quantity + $quantity;
-
                 if ($newQuantity > $availableStock) {
-                    $this->dispatch('notify', [
-                        'message' => 'Total quantity melebihi stok yang tersedia',
-                        'type' => 'error'
-                    ]);
+                    session()->flash('error', 'Total quantity melebihi stok yang tersedia.');
                     return;
                 }
-
                 $existingCartItem->increment('quantity', $quantity);
             } else {
                 if ($quantity > $availableStock) {
-                    $this->dispatch('notify', [
-                        'message' => 'Stok tidak mencukupi',
-                        'type' => 'error'
-                    ]);
+                    session()->flash('error', 'Stok tidak mencukupi.');
                     return;
                 }
-
                 Cart::create([
                     'user_id' => $userId,
                     'product_id' => $productId,
@@ -121,24 +107,22 @@ class DetailProduct extends Component
                 ]);
             }
         });
-
-        // Reset jumlah & ukuran setelah sukses
-        $this->reset(['quantity', 'selectedSize']);
-
-        // Perbarui UI
-        $this->dispatch('cart-updated');
-        $this->dispatch('notify', [
-            'message' => 'Produk berhasil ditambahkan ke keranjang',
-            'type' => 'success'
-        ]);
-    }
-
-
     
+        // **Jika sampai di sini, berarti sukses**
+        session()->flash('success', 'Produk berhasil ditambahkan ke keranjang.');
+    
+        // **Reset jumlah & ukuran setelah sukses**
+        $this->reset(['quantity', 'selectedSize']);
+    
+        // **Perbarui UI**
+        $this->dispatch('cart-updated');
+    }
+    
+
     public function render()
     {
         $cartCount = Auth::check() ? Cart::where('user_id', Auth::id())->sum('quantity') : 0;
-
+        
         return view('livewire.detailproduct', [
             'cartCount' => $cartCount
         ])->layout('components.layouts.app');

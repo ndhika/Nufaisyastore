@@ -30,12 +30,12 @@ class Register extends Component
         $user->phone_number = $this->phone_number;
         $user->save();
         
-        // Login otomatis
+        session()->flash('success', 'Akun berhasil dibuat!');
         Auth::login($user);
 
-        // Redirect ke halaman home
         return redirect()->route('home');
     }
+
 
     public function render()
     {

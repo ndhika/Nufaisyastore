@@ -80,22 +80,4 @@
             </div>
         </section>
     @livewire('partials.footer')
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let items = document.querySelectorAll(".carousel-item");
-            let index = 0;
-
-            setInterval(() => {
-                let current = items[index];
-                current.classList.remove("opacity-100");
-                current.classList.add("opacity-0");
-
-                index = (index + 1) % items.length;
-
-                let next = items[index];
-                next.classList.remove("opacity-0");
-                next.classList.add("opacity-100");
-            }, 3000);
-        });
-    </script>
 </div>

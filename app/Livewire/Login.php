@@ -22,11 +22,13 @@ class Login extends Component
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
+    
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
             session()->regenerate();
-
             return redirect()->to('/');
+        } else {
+            session()->flash('error', 'Email atau password salah!');
+            $this->dispatch('loginFailed');
         }
     }
 }

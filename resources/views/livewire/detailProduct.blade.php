@@ -5,7 +5,21 @@
                 <i class="fa-solid fa-arrow-left mr-2"></i> Kembali ke Produk
             </a>
         </div>
-        
+        @if (session()->has('success'))
+            <div class="mb-4 p-4 text-green-800 bg-green-200 border border-green-400 rounded-lg">
+            {{ session('success') }}
+            </div>
+        @endif
+        @if (session()->has('error'))
+            <div class="mb-4 p-4 text-red-800 bg-red-200 border border-red-400 rounded-lg">
+            {{ session('error') }}
+            </div>
+        @endif
+        @if (session()->has('info'))
+            <div class="mb-4 p-4 text-blue-800 bg-blue-200 border border-blue-400 rounded-lg">
+                {{ session('info') }}
+            </div>
+        @endif
         <div class="flex flex-col lg:flex-row gap-8">
             <!-- Left Section - Images -->
             <div class="w-full lg:w-2/5">
@@ -129,3 +143,5 @@
         </div>
     </div>  
 </div>
+
+

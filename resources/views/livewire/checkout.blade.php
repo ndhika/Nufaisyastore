@@ -1,6 +1,20 @@
 <div>
     <div class="max-w-7xl mx-auto px-4 py-8">
         <div class="flex flex-col lg:flex-row gap-8">
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <!-- Left Section -->
             <div class="w-full lg:w-2/3">
                 <!-- Shipping Address Card -->
@@ -174,7 +188,9 @@
                         >
                             Bayar Sekarang
                         </button>
-
+                        @if(!$proof)
+                            <p class="text-error text-sm text-center mt-2">Silakan upload bukti pembayaran terlebih dahulu!</p>
+                        @endif
                         <p class="text-xs text-base-content/70 text-center mt-4 text-white">
                             Dengan melanjutkan pembayaran, kamu menyetujui Syarat & Ketentuan
                         </p>
@@ -184,7 +200,7 @@
         </div>
     </div>
     <!-- Address Modal -->
-   <!-- Updated Modal with wire:model and x-data -->
+<!-- Updated Modal with wire:model and x-data -->
     <div class="modal {{ $showAddressModal ? 'modal-open' : '' }}">
         <div class="modal-box">
             <h3 class="text-white font-bold text-lg mb-4">Ganti Alamat</h3>
@@ -242,19 +258,4 @@
         <!-- Backdrop -->
         <div class="modal-backdrop" wire:click="closeModal"></div>
     </div>
-    
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        if (typeof Livewire !== "undefined") {
-            Livewire.on("swal", (data) => {
-                Swal.fire({
-                    title: data.title,
-                    text: data.text,
-                    icon: data.icon,
-                    confirmButtonText: "OK"
-                });
-            });
-        } 
-    });
-</script>
 </div>

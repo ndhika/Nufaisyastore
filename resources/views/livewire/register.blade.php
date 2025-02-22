@@ -8,6 +8,12 @@
                 </h1>
                 <p class="text-gray-300 text-md md:text-lg italic">Your Fashion Paradise</p>
             </div>
+            
+            @if (session()->has('success'))
+                <div class="bg-green-500 text-white p-3 rounded-lg mb-4">
+                    {{ session('success') }}
+                </div>
+            @endif
     
             <!-- Glass effect container -->
             <div class="relative px-6 py-8 bg-black bg-opacity-20 backdrop-blur-lg shadow-lg rounded-xl w-full mx-auto">

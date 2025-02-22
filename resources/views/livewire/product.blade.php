@@ -15,6 +15,26 @@
             <i class="fas fa-search text-gray-400 absolute top-1/2 transform -translate-y-1/2 right-3"></i>
         </div>
     </div>
+    <!-- Tambahkan setelah div search dan sebelum grid produk -->
+    @if (session()->has('message'))
+    <div class="relative z-10 items-end max-w-md mt-4 transition-all duration-300 ease-in-out">
+        <div class="bg-gradient-to-r from-green-500 to-teal-500 rounded-lg shadow-lg overflow-hidden">
+            <div class="px-4 py-3 flex items-center justify-between">
+                <div class="flex items-center">
+                    <svg class="h-5 w-5 text-white mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <p class="text-white font-medium">{{ session('message') }}</p>
+                </div>
+                <button wire:click="$refresh" class="text-white hover:text-gray-100">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
     <h1 class=" relative z-10 text-3xl font-bold text-white mb-8 mt-12 px-6">Semua Produk</h1>
     <div class="relative z-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 px-6">
         @forelse ($products as $product)
@@ -52,7 +72,6 @@
             </div>
         @endforelse
     </div>
-    
     <!-- Pagination -->
     <div class="mt-6 px-6">
         {{ $products->links() }}
