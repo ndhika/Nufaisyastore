@@ -4,14 +4,14 @@
     <div class="absolute inset-0 bg-gradient-to-br from-[#02505a] to-[#001834]"></div>
     <div class="absolute inset-0 bg-black opacity-20"></div>
     <div class="relative z-10 mb-6 flex justify-end mr-5 gap-2 pt-28">
-        <select wire:model="category" class="px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-[150px] md:w-[200px]">
+        <select wire:model="category" wire:change="$refresh" class="px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-[150px] md:w-[200px]">
             <option value="">Semua Kategori</option>
             <option value="Kacamata">Kacamata</option>
             <option value="Tas">Tas</option>
             <option value="Gamis">Gamis</option>
         </select>
         <div class="relative w-[150px] md:w-[250px]">
-            <input type="text" wire:model.debounce.300ms="search" wire:keydown.enter="$refresh" placeholder="Cari produk..." class="px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full pr-8">
+            <input type="text" wire:model.debounce.500ms="search" wire:keydown.enter="$refresh" placeholder="Cari produk..." class="px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full pr-8">
             <i class="fas fa-search text-gray-400 absolute top-1/2 transform -translate-y-1/2 right-3"></i>
         </div>
     </div>
