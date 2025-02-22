@@ -6,8 +6,7 @@
                 <h6 class="text-lg font-semibold border-b border-primary w-fit pb-1">Nufaisyastore</h6>
                 <ul class="mt-2 space-y-2">
                     <li><a href="#" class="hover:text-primary">About Us</a></li>
-                    <li><a href="#" class="hover:text-primary">Privacy Policy</a></li>
-                    <li><a href="#" class="hover:text-primary">Affiliate Program</a></li>
+                    <li><a href="#" class="hover:text-primary">Product</a></li>
                 </ul>
             </div>
             

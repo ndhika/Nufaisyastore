@@ -36,11 +36,6 @@ class Cart extends Component
         }
     }
     
-    
-    
-    
-    
-    
     public function updatedSelectedItems()
     {
         if (!$this->cart) {
