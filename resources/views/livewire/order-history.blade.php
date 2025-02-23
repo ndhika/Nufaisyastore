@@ -49,7 +49,7 @@
                             {{-- Gambar Produk --}}
                             <td class="p-4 flex items-center space-x-3">
                                 @foreach ($order->products as $product)
-                                    <div class="flex flex-col items-center">
+                                    <div class="flex flex-col items-start">
                                         <img src="{{ asset('storage/' . $product->thumbnail) }}" 
                                             alt="{{ $product->name }}" 
                                             class="w-16 h-16 object-cover rounded-lg shadow-md">
