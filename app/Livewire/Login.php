@@ -25,7 +25,7 @@ class Login extends Component
     
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
             session()->regenerate();
-            return redirect()->to('/');
+            return redirect(session()->pull('url.intended', route('home')));
         } else {
             session()->flash('error', 'Email atau password salah!');
             $this->dispatch('loginFailed');
