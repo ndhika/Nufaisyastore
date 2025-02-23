@@ -7,6 +7,7 @@ use Livewire\WithFileUploads;
 use App\Models\ProductTransaction;
 use App\Models\PromoCode;
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -251,8 +252,29 @@ class Checkout extends Component
             return;
         }
 
+        foreach ($this->cartItems as $item) {
+            $product = Product::find($item->product_id);
+            if ($product) {
+                // Kurangi stok sesuai jumlah pembelian
+                $product->stock -= $item->quantity;
+                $product->save();
+            }
+        }
+
         DB::beginTransaction();
         try {
+
+            foreach ($this->cartItems as $item) {
+                $product = Product::find($item->product_id);
+                if ($product) {
+                    if ($product->stock < $item->quantity) {
+                        throw new \Exception("Stok produk {$product->name} tidak mencukupi.");
+                    }
+                    $product->stock -= $item->quantity;
+                    $product->save();
+                }
+            }
+        
             $transactionData = [
                 'user_id' => Auth::id(),
                 'name' => Auth::user()->name,
