@@ -67,9 +67,9 @@
                 </div>
             </a>
         @empty
-            <div class="col-span-4 text-center mt-40 text-gray-200">
-                <p>Tidak ada produk yang ditemukan.</p>
-            </div>
+        <div class="col-span-full h-8 flex justify-center items-center">
+            <p class="text-gray-200">Tidak ada produk yang ditemukan.</p>
+        </div>     
         @endforelse
     </div>
     <!-- Pagination -->
